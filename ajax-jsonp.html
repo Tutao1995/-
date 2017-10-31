@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>利用ajax简陋搜索</title>
+	<style>
+		*{padding:0;margin:0;}
+		li{list-style: none;}
+		a{text-decoration: none;}
+		#searchBox{width:300px;height:36px;margin:50px auto;background: pink;}
+		#search{width:296px;height: 36px;text-indent: 10px;outline:none;font-family: "microsoft yahei";}
+		#list li{width: 100%;line-height: 26px;text-indent: 10px;background: #ccc;border-bottom: 1px solid #666;}
+		#list li a{display: block;color:#111;}
+		#list li:hover a{background: #bbb;color: #fff;}
+	</style>
+</head>
+<body>
+	<div id="searchBox">
+		<input type="text" id="search">
+		<ul id="list">
+			<!-- <li><a href="javascript:void(0);">1111</a></li>
+			<li><a href="javascript:void(0);">2222</a></li>
+			<li><a href="javascript:void(0);">3333</a></li>
+			<li><a href="javascript:void(0);">4444</a></li> -->
+		</ul>
+	</div>
+	<script src="ajax.js"></script>
+	<script>
+	//jsonp --->跨域解决
+	var inputDom = document.getElementById("search");
+	var ulDom = document.getElementById("list");
+	var scriptDom;
+	inputDom.onkeyup = function(){
+		var val = this.value;//获取输入框的值
+		scriptDom = document.createElement("script");
+		scriptDom.src = "https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd="+val+"&cb=callback";
+		document.body.appendChild(scriptDom);
+		document.body.removeChild(scriptDom);
+	};
+	
+	
+
+	function callback(params){
+		var content = params.s;
+		var len = content.length;
+		len = Math.min(4,len);
+		ulDom.innerHTML = "";//清空ulDom里面的元素内容
+		for(var i=0;i<len;i++){
+			ulDom.innerHTML += "<li><a href='https://www.baidu.com/s?wd="+content[i]+"'>"+content[i]+"</a></li>";
+		}
+	}
+	</script>
+</body>
+</html>
